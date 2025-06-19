@@ -8,3 +8,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <App />
   </React.StrictMode>
 );
+
+// interimResults: show words before they are finalized.
+// interim: temporarily captured words.
+// final: confirmed/finalized words.

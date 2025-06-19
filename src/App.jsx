@@ -4,7 +4,7 @@ const SpeechRecognition =
   window.SpeechRecognition || window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition();
 recognition.continuous = true;
-recognition.interimResults = true;
+recognition.interimResults = true; //show words before they are finalized.
 recognition.lang = "en-US";
 
 function getWordFrequency(text) {
@@ -24,12 +24,22 @@ function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [timer, setTimer] = useState(0);
   const [intervalId, setIntervalId] = useState(null);
+  const [notification, setNotification] = useState(null);
+  const [showInstructions, setShowInstructions] = useState(true);
   const isListening = useRef(false);
 
   useEffect(() => {
+    const hasVisited = localStorage.getItem("hasVisited");
+    if (!hasVisited) {
+      setShowInstructions(true);
+      localStorage.setItem("hasVisited", "true");
+    }
+  }, []);
+
+  useEffect(() => {
     recognition.onresult = (event) => {
-      let interim = "";
-      let final = finalTranscript;
+      let interim = ""; //temporarily captured words.
+      let final = finalTranscript; //confirmed/finalized words.
 
       for (let i = event.resultIndex; i < event.results.length; i++) {
         const transcriptChunk = event.results[i][0].transcript;
@@ -53,6 +63,11 @@ function App() {
     };
   }, [finalTranscript]);
 
+  const showNotification = (message) => {
+    setNotification(message);
+    setTimeout(() => setNotification(null), 3000);
+  };
+
   const startListening = () => {
     isListening.current = true;
     setTranscript("");
@@ -62,6 +77,7 @@ function App() {
     const id = setInterval(() => setTimer((prev) => prev + 1), 1000);
     setIntervalId(id);
     recognition.start();
+    showNotification("🎙️ Listening started...");
   };
 
   const stopListening = () => {
@@ -70,6 +86,7 @@ function App() {
       recognition.stop();
       clearInterval(intervalId);
       setFrequency(getWordFrequency(finalTranscript));
+      showNotification("🛑 Listening stopped.");
     }
   };
 
@@ -92,6 +109,44 @@ function App() {
         isDarkMode ? "bg-gray-900 text-gray-100" : "bg-gray-100 text-gray-900"
       }`}
     >
+      {notification && (
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 w-[90%] sm:w-auto bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-6 py-3 rounded-md shadow-md border border-green-500 z-50">
+          <div className="text-sm font-medium">{notification}</div>
+          <div className="mt-2 h-1 bg-green-500 animate-progress-bar rounded-full"></div>
+        </div>
+      )}
+
+      {showInstructions && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+          <div className="flex flex-col justify-center bg-white dark:bg-gray-800 text-gray-900 dark:text-white p-6 rounded-lg max-w-md w-[90%] shadow-xl">
+            <h2 className="text-2xl font-bold mb-4 text-center">
+              👋 Welcome to AI Voice Analyzer
+            </h2>
+            <ul className="list-disc list-inside space-y-2 text-sm leading-relaxed">
+              <li>
+                Click <strong>Start Listening</strong> to begin recording.
+              </li>
+              <li>Speak clearly and watch real-time transcription.</li>
+              <li>
+                Click <strong>Stop Listening</strong> to analyze the speech.
+              </li>
+              <li>Check the word frequency report below.</li>
+              <li>
+                Use the <strong>Download Report</strong> button to save your
+                analysis.
+              </li>
+              <li>Toggle dark/light theme anytime from the top right.</li>
+            </ul>
+            <button
+              onClick={() => setShowInstructions(false)}
+              className="mt-4 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded shadow"
+            >
+              Got it!
+            </button>
+          </div>
+        </div>
+      )}
+
       <main className="flex-grow p-4 sm:p-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
           <h1 className="text-2xl sm:text-3xl font-extrabold">
@@ -99,8 +154,7 @@ function App() {
           </h1>
           <button
             onClick={() => setIsDarkMode(!isDarkMode)}
-            className="px-4 py-2 rounded border text-sm font-medium transition-colors duration-200
-              bg-white dark:bg-gray-800 dark:text-white dark:border-gray-700 border-gray-300 text-gray-800"
+            className="px-4 py-2 rounded border text-sm font-medium transition-colors duration-200 bg-white dark:bg-gray-800 dark:text-white dark:border-gray-700 border-gray-300 text-gray-800"
           >
             {isDarkMode ? "🌞 Light Mode" : "🌙 Dark Mode"}
           </button>

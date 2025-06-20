@@ -155,7 +155,7 @@ function App() {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
           <div className="flex items-center gap-2">
             <img
-              src="./public/VA logo.png"
+              src="/VA logo.png"
               alt="Logo"
               className="w-8 h-8 sm:w-10 sm:h-10"
             />

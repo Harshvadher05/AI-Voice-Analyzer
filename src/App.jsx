@@ -59,7 +59,11 @@ function App() {
     };
 
     recognition.onerror = (event) => {
-      console.error("Speech recognition error:", event.error);
+      if (event?.error) {
+        console.error("Speech recognition error:", event.error);
+      } else {
+        console.error("Unknown speech recognition error.");
+      }
     };
   }, [finalTranscript]);
 
@@ -120,7 +124,7 @@ function App() {
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
           <div className="flex flex-col justify-center bg-white dark:bg-gray-800 text-gray-900 dark:text-white p-6 rounded-lg max-w-md w-[90%] shadow-xl">
             <h2 className="text-2xl font-bold mb-4 text-center">
-              👋 Welcome to AI Voice Analyzer
+              Welcome to AI Voice Analyzer
             </h2>
             <ul className="list-disc list-inside space-y-2 text-sm leading-relaxed">
               <li>
@@ -150,7 +154,7 @@ function App() {
       <main className="flex-grow p-4 sm:p-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
           <h1 className="text-2xl sm:text-3xl font-extrabold">
-            🧠 AI Voice Analyzer
+            AI Voice Analyzer
           </h1>
           <button
             onClick={() => setIsDarkMode(!isDarkMode)}
@@ -185,7 +189,7 @@ function App() {
         </div>
 
         <section className="mb-6">
-          <h2 className="text-xl font-semibold mb-2">📝 Transcript</h2>
+          <h2 className="text-xl font-semibold mb-2">Transcript</h2>
           <div
             className={`p-4 rounded-lg shadow text-sm sm:text-base ${
               isDarkMode
@@ -197,8 +201,8 @@ function App() {
           </div>
         </section>
 
-        <section>
-          <h2 className="text-xl font-semibold mb-2">📊 Word Frequency</h2>
+        <section className="mb-6">
+          <h2 className="text-xl font-semibold mb-2">Word Frequency</h2>
           <div
             className={`p-4 rounded-lg shadow text-sm sm:text-base ${
               isDarkMode
@@ -222,6 +226,22 @@ function App() {
             )}
           </div>
         </section>
+
+        {/* Section for upcoming features */}
+        <section className="mb-6">
+          <h2 className="text-xl font-semibold mb-2">Upcoming Features.....</h2>
+          <ol
+            className={`p-4 rounded-lg shadow text-sm sm:text-base list-decimal list-inside ${
+              isDarkMode
+                ? "bg-gray-800 text-gray-100"
+                : "bg-white text-gray-800"
+            }`}
+          >
+            <li>Multy language support.</li>
+            <li>Chatboard with voice assistance.</li>
+            <li>Text translation.</li>
+          </ol>
+        </section>
       </main>
 
       <footer
@@ -232,7 +252,7 @@ function App() {
         }`}
       >
         <p>
-          Made with 💡 by <span className="font-semibold">H.N.Vadher</span>
+          Made by <span className="font-semibold">H.N.Vadher</span>
         </p>
         <p className="mt-1">
           © {new Date().getFullYear()} AI Voice Analyzer. All rights reserved.

@@ -153,9 +153,17 @@ function App() {
 
       <main className="flex-grow p-4 sm:p-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-          <h1 className="text-2xl sm:text-3xl font-extrabold">
-            AI Voice Analyzer
-          </h1>
+          <div className="flex items-center gap-2">
+            <img
+              src="./public/VA logo.png"
+              alt="Logo"
+              className="w-8 h-8 sm:w-10 sm:h-10"
+            />
+            <h1 className="text-2xl sm:text-3xl font-extrabold">
+              AI Voice Analyzer
+            </h1>
+          </div>
+
           <button
             onClick={() => setIsDarkMode(!isDarkMode)}
             className="px-4 py-2 rounded border text-sm font-medium transition-colors duration-200 bg-white dark:bg-gray-800 dark:text-white dark:border-gray-700 border-gray-300 text-gray-800"

@@ -250,6 +250,74 @@ function App() {
             <li>Text translation.</li>
           </ol>
         </section>
+
+        {/* Project Advertisement Section */}
+        <section className="mb-6">
+          <h2 className="text-xl font-semibold mb-2">
+            🚀 Check Out My Other Project
+          </h2>
+          <div
+            className={`p-6 rounded-lg shadow flex flex-col sm:flex-row items-center gap-6 transition hover:shadow-lg ${
+              isDarkMode
+                ? "bg-gray-800 text-gray-100"
+                : "bg-white text-gray-800"
+            }`}
+          >
+            {/* Logo from public folder */}
+            <img
+              src="/double-slash-icon.png"
+              alt="Double Slash Extension Logo"
+              className="w-16 h-16 sm:w-20 sm:h-20"
+            />
+
+            <div className="flex-1">
+              <h3 className="text-lg font-bold mb-2">
+                🔍 Double Slash (//) Chrome Extension
+              </h3>
+              <p className="text-sm leading-relaxed mb-2">
+                A lightweight Chrome extension inspired by Grammarly’s inline
+                behavior. Type <code>//your query</code>, hit{" "}
+                <strong>Enter</strong>, and it automatically fetches results
+                from the web directly into your text box.
+              </p>
+              <ul className="list-disc list-inside text-sm mb-3 space-y-1">
+                <li>⚡ Fast & lightweight</li>
+                <li>🌐 Uses DuckDuckGo & Wikipedia</li>
+                <li>
+                  🔦 Highlights text after <code>//</code>
+                </li>
+              </ul>
+
+              {/* Buttons */}
+              <div className="flex flex-wrap gap-3">
+                <button
+                  onClick={() =>
+                    window.open(
+                      "https://github.com/Harshvadher05/double-Slash",
+                      "_blank",
+                      "noopener,noreferrer"
+                    )
+                  }
+                  className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-4 py-2 rounded shadow hover:brightness-110 transition text-sm"
+                >
+                  View on GitHub →
+                </button>
+                <button
+                  onClick={() =>
+                    window.open(
+                      "https://my-portfolio-tau-three-vshh9ydsb4.vercel.app/",
+                      "_blank",
+                      "noopener,noreferrer"
+                    )
+                  }
+                  className="bg-gradient-to-r from-pink-500 to-red-500 text-white px-4 py-2 rounded shadow hover:brightness-110 transition text-sm"
+                >
+                  Visit My Portfolio 🌐
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
       <footer
